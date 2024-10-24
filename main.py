@@ -8,6 +8,7 @@ from SecondMenu import SecondMenu
 from constants import BLUE, YELLOW, RED, GREEN, PURPLE
 from ScoreManager import ScoreManager
 from SecondMenu import SecondMenu
+import pieces
 
 
 pygame.init()
@@ -24,6 +25,7 @@ tracks = ["music/Track1.mp3", "music/Track2.mp3", "music/Track3.mp3", "music/Tra
 current_track = 0
 SONG_END = pygame.USEREVENT + 1
 second_menu = SecondMenu(tracks)
+
 
 
 def music_loop():
@@ -413,6 +415,16 @@ def settings():
     settings_screen.blit(button_text, button_text_rect)
     button_rect_5 = pygame.Rect(position, size)
 
+    # Change Sprites Button
+    position = (Width // 2 - 150, Height // 2 + button_height + spacing)
+    sprite_button_rect = pygame.Rect(position, size)
+    button_text = button_font.render("Change Sprites", True, (255, 255, 255))
+    button_text_rect = button_text.get_rect(center=(Width // 2, Height // 2 +
+                                                    button_height + spacing +
+                                                    button_height // 2))
+    pygame.draw.rect(settings_screen, color, sprite_button_rect)
+    settings_screen.blit(button_text, button_text_rect)
+
     # Exit button to return back to menu
     exit_button_font = pygame.font.Font(None, 32)
     exit_button_text = exit_button_font.render("Exit Settings", True, (255, 255, 255))
@@ -437,8 +449,17 @@ def settings():
                     else:
                         music_loop()  # Start the music from next song in tracklist
                         music_playing = True
+                if sprite_button_rect.collidepoint(event.pos):
+                    print("Change Sprite button clicked")
+                    change_sprite()
             elif event.type == SONG_END and music_playing == True:
                 music_loop()
+
+
+def change_sprite():
+    print(f'Before: {pieces.Piece.sprite_state}')
+    pieces.Piece.change_sprite_state()
+    print(f'After: {pieces.Piece.sprite_state}')
 
 def show_leaderboard():
     """
