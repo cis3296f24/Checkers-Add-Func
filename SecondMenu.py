@@ -46,7 +46,7 @@ class SecondMenu:
         self.background_music = BackgroundMusic([track])
     
     color = RED
-    def start_game_menu(self):
+    def start_game_menu(self, play_timer):
         """
         The start game menu function displays the second menu of the game, which allows the user to choose between playing against another player or against the computer.
         """
@@ -174,26 +174,26 @@ class SecondMenu:
                         score_manager.add_user(player1_name.username)
                         player2_name.get_player_name()
                         score_manager.add_user(player2_name.username)
-                        self.start_game_vs_player(start_game_screen)
+                        self.start_game_vs_player(start_game_screen, play_timer)
                         score_manager.save_scores()
                         return
                     elif button_rect_2.collidepoint(event.pos):  # Start Game VS Computer button clicked
                         player1_name.get_player_name()
                         score_manager.add_user(player1_name.username)
-                        self.start_game_vs_computer(start_game_screen)
+                        self.start_game_vs_computer(start_game_screen, play_timer)
                         score_manager.save_scores()
                         return
                 # score_manager.save_scores() # now inside elif so scores are updated before returning to main
                     elif event.type == self.background_music.SONG_END:
                         self.background_music.handle_event(event)
                   
-    def start_game_vs_player(self, screen):
+    def start_game_vs_player(self, screen, play_timer):
         """
         The start game vs player function starts the game against another player by creating an object of the game class and passing the screen, color, and player names.
         """
         run = True
         clock = pygame.time.Clock()
-        game = Game(screen, self.color, player1_name.username, player2_name.username)
+        game = Game(screen, self.color, player1_name.username, player2_name.username, play_timer)
         global score_manager, user_scores
 
         # Exit Button
@@ -234,13 +234,13 @@ class SecondMenu:
 
             game.update()
 
-    def start_game_vs_computer(self, screen): 
+    def start_game_vs_computer(self, screen, play_timer): 
         """
         The start game vs computer function starts the game against the computer by creating an object of the game class and passing the screen, color, and player name.
         """
         run = True
         clock = pygame.time.Clock()
-        game = Game(screen, self.color, player1_name.username, "Computer")
+        game = Game(screen, self.color, player1_name.username, "Computer", play_timer)
         global score_manager, user_scores
 
         # Exit Button
