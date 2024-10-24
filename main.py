@@ -8,6 +8,7 @@ from SecondMenu import SecondMenu
 from constants import BLUE, YELLOW, RED, GREEN
 from ScoreManager import ScoreManager
 from SecondMenu import SecondMenu
+import pieces
 
 
 pygame.init()
@@ -24,6 +25,7 @@ tracks = ["music/Track1.mp3", "music/Track2.mp3", "music/Track3.mp3", "music/Tra
 current_track = 0
 SONG_END = pygame.USEREVENT + 1
 second_menu = SecondMenu(tracks)
+
 
 
 def music_loop():
@@ -449,8 +451,15 @@ def settings():
                         music_playing = True
                 if sprite_button_rect.collidepoint(event.pos):
                     print("Change Sprite button clicked")
+                    change_sprite()
             elif event.type == SONG_END and music_playing == True:
                 music_loop()
+
+
+def change_sprite():
+    print(f'Before: {pieces.Piece.sprite_state}')
+    pieces.Piece.change_sprite_state()
+    print(f'After: {pieces.Piece.sprite_state}')
 
 def show_leaderboard():
     """
