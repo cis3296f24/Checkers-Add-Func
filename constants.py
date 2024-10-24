@@ -17,3 +17,5 @@ SQUARE_SIZE = 85
 WIDTH, HEIGHT = 1000,1000
 
 KING = pygame.transform.scale(pygame.image.load('pics/king_icon.png'), (44, 25)) # for king piece
+
+CUSTOM_SPRITE = pygame.transform.scale(pygame.image.load('pics/SmileyFace1.webp'), (44,25))

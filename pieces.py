@@ -3,7 +3,7 @@ Pieces.py
 The Pieces File holds the Pieces class which is responsible for managing the pieces.
 """
 
-from constants import SQUARE_SIZE, GREY, KING
+from constants import SQUARE_SIZE, GREY, KING, CUSTOM_SPRITE
 import pygame
 
 class Piece:
@@ -51,7 +51,7 @@ class Piece:
         pygame.draw.circle(win, GREY, (self.x, self.y), radius + self.OUTLINE)
         pygame.draw.circle(win, self.color, (self.x, self.y), radius)
         if self.sprite_state:
-            win.blit(KING, (self.x - KING.get_width()//2, self.y - KING.get_height()//2))  # change image later
+            win.blit(CUSTOM_SPRITE, (self.x - CUSTOM_SPRITE.get_width()//2, self.y - CUSTOM_SPRITE.get_height()//2))  # change image later
         if self.king:
             win.blit(KING, (self.x - KING.get_width()//2, self.y - KING.get_height()//2))
 
