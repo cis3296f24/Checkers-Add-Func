@@ -5,7 +5,7 @@ The main file holds menu operations for the game including sound, settings, lead
 """
 import pygame
 from SecondMenu import SecondMenu
-from constants import BLUE, YELLOW, RED, GREEN
+from constants import BLUE, YELLOW, RED, GREEN, PURPLE
 from ScoreManager import ScoreManager
 from SecondMenu import SecondMenu
 
@@ -118,7 +118,7 @@ def menu_buttons():
     startgame_icon_resized = pygame.transform.scale(startgame_icon, icon_size)
     startgame_icon_rect = startgame_icon_resized.get_rect(topleft=(Width // 2 - 150 + 10, Height // 3 + (button_height - icon_size[1] - 50) // 2))
 
-    color = (128, 128, 128) # grey
+    color = (128, 0, 128) # grey
     cursor_color = (100, 100, 100) # darker grey
     position = (Width // 2-150, Height // 3-25)
     size = (300, 50)  # width, height
@@ -175,7 +175,7 @@ def menu_buttons():
     # Tutorial button
     tutorial_icon = pygame.image.load('pics/tutorial_icon.png')
 
-    color = (128, 128, 128) # grey
+    color = (128, 0, 128) # grey
     cursor_color = (100, 100, 100) # darker grey
     position = (Width // 2-150, Height // 3 + 135)
     size = (300, 50)  # width, height
@@ -207,7 +207,7 @@ def menu_buttons():
     # Leaderboard button
     leaderboard_icon = pygame.image.load('pics/leaderboard_icon.png')
 
-    color = (128, 128, 128) # grey
+    color = (128, 0, 128) # grey
     cursor_color = (100, 100, 100) # darker grey
     position = (Width // 2 - 150, Height // 3 + 210)  # Adjust the vertical position as needed
     size = (300, 50)  # width, height
@@ -242,7 +242,7 @@ def menu_buttons():
     # Customize Board button
     board_icon = pygame.image.load('pics/colorwheel_icon.png')
 
-    color = (128, 128, 128) # grey
+    color = (128, 0, 128) # grey
     cursor_color = (100, 100, 100) # darker grey
     position = (Width // 2 - 150, Height // 3 + 285)  # Adjust the vertical position as needed
     size = (300, 50)  # width, height
@@ -392,7 +392,7 @@ def settings():
     settings_screen.blit(credits_text1, credits_rect1)
     settings_screen.blit(credits_text2, credits_rect2)
 
-    color = (128, 128, 128) # grey
+    color = (128, 0, 128) # grey
     cursor_color = (100, 100, 100) # darker grey
     position = (Width // 2-150, Height // 3-25)
     size = (300, 50)  # width, height
@@ -537,6 +537,8 @@ def board_customization():
     pygame.draw.rect(board_customization_screen, YELLOW, yellow_square_rect)  # Yellow square
     green_square_rect = pygame.Rect(yellow_square_rect.right + 20, yellow_square_rect.top, square_side, square_side)
     pygame.draw.rect(board_customization_screen, GREEN, green_square_rect)  # Green square
+    purple_square_rect = pygame.Rect(green_square_rect.right + 20, green_square_rect.top, square_side, square_side)
+    pygame.draw.rect(board_customization_screen, PURPLE, purple_square_rect)  # Green square
 
     pygame.display.flip()
 
@@ -556,6 +558,8 @@ def board_customization():
                     second_menu_instance.color = YELLOW
                 if green_square_rect.collidepoint(event.pos): # make board green
                     second_menu_instance.color = GREEN
+                if purple_square_rect.collidepoint(event.pos): # make board green
+                    second_menu_instance.color = PURPLE
             elif event.type == SONG_END:
                 music_loop()
 
