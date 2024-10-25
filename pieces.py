@@ -3,7 +3,7 @@ Pieces.py
 The Pieces File holds the Pieces class which is responsible for managing the pieces.
 """
 
-from constants import SQUARE_SIZE, GREY, KING, CUSTOM_SPRITE
+from constants import SQUARE_SIZE, GREY, KING
 import pygame
 
 class Piece:
@@ -13,9 +13,6 @@ class Piece:
     """
     PADDING = 15
     OUTLINE = 3 # create outline around piece for better visuals
-
-    #global sprite_state variable
-    sprite_state = False
 
     def __init__(self, row, col, color):
         """
@@ -28,7 +25,6 @@ class Piece:
         self.x = 0
         self.y = 0
         self.calc_pos()
-        self.sprite_state = Piece.sprite_state
 
     def calc_pos(self):
         """
@@ -50,8 +46,6 @@ class Piece:
         radius = SQUARE_SIZE//2 - self.PADDING
         pygame.draw.circle(win, GREY, (self.x, self.y), radius + self.OUTLINE)
         pygame.draw.circle(win, self.color, (self.x, self.y), radius)
-        if self.sprite_state:
-            win.blit(CUSTOM_SPRITE, (self.x - CUSTOM_SPRITE.get_width()//2, self.y - CUSTOM_SPRITE.get_height()//2))  # change image later
         if self.king:
             win.blit(KING, (self.x - KING.get_width()//2, self.y - KING.get_height()//2))
 
@@ -62,7 +56,3 @@ class Piece:
         self.row = row
         self.col = col
         self.calc_pos()
-    
-    @staticmethod
-    def change_sprite_state():
-        Piece.sprite_state = not Piece.sprite_state

@@ -3,8 +3,10 @@ Game.py
 The game file holds the game logic and game class.
 """
 import pygame
+import requests
 from constants import RED, WHITE, YELLOW, SQUARE_SIZE
 from Main_Board import Main_Board
+
 
 class Game: 
     """
@@ -32,6 +34,9 @@ class Game:
         self.player1 = player1
         self.player2 = player2
         
+        self.weather_update_interval = 60000  # 60 seconds
+        self.last_weather_update_time = 0  # Initialize to 0 or set to pygame.time.get_ticks()
+
     def check_turn_timeout(self):
         """
         The check turn timeout function checks the turn timeout and displays the move timer on the screen. If the time is running out, the text color is set to red.
@@ -81,19 +86,56 @@ class Game:
         text_surface2 = self.font.render(text2, True, self.text_color)
         self.screen.blit(text_surface, (715, 350))
         self.screen.blit(text_surface2, (715, 400))
+    
+    def getWeather(self):
+        location = "Philadelphia"  # Change this to the desired location
+        url = f"http://api.weatherapi.com/v1/current.json?key=2f093d8b586443d7a14232846242410&q={location}&aqi=no"
+        try:
+            response = requests.get(url)
+            response.raise_for_status()  # Raise an error for bad responses
+            weather_data = response.json()
+            condition = weather_data['current']['condition']['text']
+            temp_f = weather_data['current']['temp_f']
+            self.board.weather = f"{location}, {condition}, {temp_f}°F"
+            return self.board.weather
+        except requests.exceptions.RequestException as e:
+            print(f"Error fetching weather data: {e}")
+            self.board.weather = "Weather data unavailable"  # Ensure this is set even on error
+            return self.board.weather
+
+    def display_weather_api(self):
+        """
+        Display the current weather on the screen.
+        """
+        weather_info = self.board.weather
+        lines = weather_info.split(", ")  # Split the info into separate lines
+
+        # Render each line of weather information
+        for index, line in enumerate(lines):
+            text_surface = self.font.render(line, True, self.text_color)
+            self.screen.blit(text_surface, (715, 500 + index * 30))  # Adjust y-coordinate for each line
 
     def update(self): 
         """
         The update function updates the board to show the current board and features.
         """
+        current_time = pygame.time.get_ticks()
+
+        # Check if it's time to update the weather
+
+        if current_time - self.last_weather_update_time > self.weather_update_interval or self.last_weather_update_time == 0:
+            self.getWeather()
+            self.last_weather_update_time = current_time  # Update the last update time
+
         self.board.draw(self.win)
         self.show_available_moves(self.valid_moves)
         self.check_turn_timeout()
         self.display_turn()
         self.display_piece_count()
         self.display_player_names(self.player1, self.player2)
+        self.display_weather_api()
         pygame.display.update()
-        
+
     def winner(self): 
         """
         The winner function checks if a winner has been found by calling the board winner function and returns the winner if one has been found.
