@@ -8,7 +8,7 @@ screen = pygame.display.set_mode([Width, Height])
 # function to display menu
 def menu_buttons():
     # PvP button
-    color = (128, 128, 128) # grey
+    color = (128, 0, 128) # grey
     cursor_color = (100, 100, 100) # darker grey
     position = (Width // 2-150, Height // 3-25)
     size = (300, 50)  # width, height
@@ -68,7 +68,7 @@ def menu_buttons():
     # Tutorial button
     tutorial_icon = pygame.image.load('pics/tutorial_icon.png')
 
-    color = (128, 128, 128) # grey
+    color = (128, 0, 128) # grey
     cursor_color = (100, 100, 100) # darker grey
     position = (Width // 2-150, Height // 3 + 135)
     size = (300, 50)  # width, height

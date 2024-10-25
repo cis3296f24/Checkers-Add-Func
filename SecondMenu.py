@@ -24,7 +24,7 @@ player1_name = Player("Player 1", 0)
 player2_name = Player("Player 2", 0)
 score_manager = ScoreManager("user_data/user_data.json")
 cursor_color = (100, 100, 100) # darker grey
-color = (128, 128, 128) # grey
+color = (128, 0, 128) # grey
 
 def get_row_col_from_mouse(pos):
     """
@@ -83,7 +83,7 @@ class SecondMenu:
         icon_size = (45, 45)  # Adjust the size of the icon as needed
         button_height = 50
         spacing = 10
-        color = (128, 128, 128)  # grey
+        color = (128, 0, 128)  # grey
 
         # PvP Button
         position = (Width // 2 - 150, Height // 3 - 25)
