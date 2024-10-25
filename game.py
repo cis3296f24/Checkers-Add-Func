@@ -12,13 +12,13 @@ class Game:
     display the piece count, display the player names, update the board, check for a winner, select a piece, move a piece, show available moves, change the turn,
     get the board, and move an AI piece.
     """
-    def __init__(self, win, color, player1, player2):
+    def __init__(self, win, color, player1, player2, play_timer):
         """
         The init function initializes the Game class with a window, color, player1, and player2, and sets the turn start time and turn timeout. The text color is set to white,
         and the urgent text color is set to red. The screen is set to the window size, and the player names are set to player1 and player2.
         """
         self.turn_start_time = pygame.time.get_ticks()
-        self.turn_timeout = 5200  # 5.2 seconds per turn
+        self.turn_timeout = (play_timer * 1000) + 200
         self.win = win
         self.color = color
         self.selected = None
@@ -40,7 +40,7 @@ class Game:
         elapsed_seconds = elapsed_time // 1000 
         text = f"Move Timer: {elapsed_seconds} s"
         text_surface = self.font.render(text, True, self.text_color)
-        if elapsed_time > 3000:
+        if elapsed_time > self.turn_timeout - 3000:
             text_surface = self.font.render(text, True, self.text_urgent_color)
         else:
             text_surface = self.font.render(text, True, self.text_color)

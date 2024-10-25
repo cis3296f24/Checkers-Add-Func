@@ -26,6 +26,8 @@ current_track = 0
 SONG_END = pygame.USEREVENT + 1
 second_menu = SecondMenu(tracks)
 
+# timer setting
+play_timer = 5
 
 
 def music_loop():
@@ -80,7 +82,7 @@ def main():
             elif event.type == pygame.MOUSEBUTTONDOWN:
                 buttons = menu_buttons()
                 if buttons[0].collidepoint(event.pos): # If Start Game button is clicked, show the second menu
-                   second_menu_instance.start_game_menu()
+                   second_menu_instance.start_game_menu(play_timer)
                 if buttons[2].collidepoint(event.pos): # if mouse is clicked on tutorial button
                     tutorial()
                 elif buttons[1].collidepoint(event.pos): # if mouse is clicked on settings button
@@ -388,6 +390,7 @@ def settings():
     button_height = 50
     spacing = 10
     settings_screen = pygame.display.set_mode([Width, Height])
+    global play_timer
     screen.blit(background_image, (0, 0))
     settings_screen.blit(title_text, title_rect)
     settings_screen.blit(message_text, message_rect)
@@ -415,6 +418,22 @@ def settings():
     settings_screen.blit(button_text, button_text_rect)
     button_rect_5 = pygame.Rect(position, size)
 
+
+    # Play Timer Button
+    timer_icon = pygame.image.load('pics/timer_icon.png')
+    position = (Width // 2 - 150, Height // 3 + button_height + spacing + 75)
+    size = (300, button_height)  # width, height
+    button_text = button_font.render(f"Play Timer: {play_timer}", True, (255, 255, 255))  # Button text and color
+    button_text_rect = button_text.get_rect(center=(Width // 2, Height // 3 + button_height + spacing + 75 + button_height // 2))
+    # Draw the icon next to the text with the specified size
+    timer_icon_resized = pygame.transform.scale(timer_icon, icon_size)
+    timer_icon_rect = timer_icon_resized.get_rect(topleft=(Width // 2 - 150 + 10, Height // 3 + button_height + spacing + 75 + (button_height - icon_size[1]) // 2))
+    # Create button on screen using position and size parameters
+    pygame.draw.rect(settings_screen, color, pygame.Rect(position, size))
+    settings_screen.blit(timer_icon_resized, timer_icon_rect.topleft)  # Draw the icon after drawing the button
+    settings_screen.blit(button_text, button_text_rect)
+    button_rect_6 = pygame.Rect(position, size)
+
     # Change Sprites Button
     position = (Width // 2 - 150, Height // 2 + button_height + spacing)
     sprite_button_rect = pygame.Rect(position, size)
@@ -424,6 +443,7 @@ def settings():
                                                     button_height // 2))
     pygame.draw.rect(settings_screen, color, sprite_button_rect)
     settings_screen.blit(button_text, button_text_rect)
+
 
     # Exit button to return back to menu
     exit_button_font = pygame.font.Font(None, 32)
@@ -449,9 +469,18 @@ def settings():
                     else:
                         music_loop()  # Start the music from next song in tracklist
                         music_playing = True
+
+                if button_rect_6.collidepoint(event.pos):  # if play timer button is clicked
+                    if play_timer == 15:
+                        play_timer = 5
+                    else:
+                        play_timer = play_timer + 5
+                    print(f"Play timer changed to {play_timer}")
+
                 if sprite_button_rect.collidepoint(event.pos):
                     print("Change Sprite button clicked")
                     change_sprite()
+
             elif event.type == SONG_END and music_playing == True:
                 music_loop()
 
